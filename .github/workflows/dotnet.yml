@@ -16,12 +16,16 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.x
-      - name: Restore dependencies
-        run: dotnet restore    
+          dotnet-version: 5.0.x 
+      - name: Install antlr4
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y antlr4
       - name: Generate lexer
         working-directory: ./pascal-lexer/antlr
         run: antlr4 -Dlanguage=CSharp PascalLexer.g4
+      - name: Restore dependencies
+        run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
       - name: Test
